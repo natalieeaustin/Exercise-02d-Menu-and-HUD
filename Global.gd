@@ -1,15 +1,18 @@
 extends Node
 
 var VP = null
+var GP = null
 
 var score = 0
 var time = 0
-var lives = 0
+var lives = 3
+var ammo = 20
 
 func _ready():
 	randomize()
-	pause_mide = Node.PAUSE_MODE_PROCESS
+	pause_mode = Node.PAUSE_MODE_PROCESS
 	VP = get_viewport().size
+	GP = Vector2(7000,1800)
 	var _signal = get_tree().get_root().connect("size_changed",self,"_resize")
 	reset()
 
@@ -17,46 +20,53 @@ func _ready():
 func _physics_process(_delta):
 	var Asteroid_Container = get_node_or_null("/root/Game/Asteroid_Container")
 	var Enemy_Container = get_node_or_null("/root/Game/Enemy_Container")
-		if Asteroid_Container != null and Enemy_Container != null:
+	if Asteroid_Container != null and Enemy_Container != null:
 		if Asteroid_Container.get_child_count() == 0 and Enemy_Container.get_child_count() == 0:
-	 var _scene = get_tree().change_scene("res://UI/End_Game.tscn")
+		 var _scene = get_tree().change_scene("res://UI/End_Game.tscn")
 
 
 func _unhandled_input(event):
 	if event.is_action_pressed("menu"):
-		var Pause_Menu = get_node_or_null("/root/Game/UI/Pause_Menu")
+		var Pause_Menu = get_node_or_null("/root/Game/Effects/UI/Pause_Menu")
 		if Pause_Menu == null:
-		get_tree().quit()
-	else: 
-		 if Menu.visible:
-	  get_tree().paused = false
-	  Menu.hide()
-	else:
-	  get_tree().paused = true
-	  Menu.show()
+			get_tree().quit()
+		else: 
+			if Pause_Menu.visible:
+				Pause_Menu.hide()
+				get_tree().paused = false
+			else:
+				Pause_Menu.show()
+				get_tree().paused = true 
 
 func _resize():
-	VP = get_viewport().size
-	var HUD = get_node_or_null("/root/Game/UI/HUD")
-		if HUD != null: 
+	#VP = get_viewport().size
+	var HUD = get_node_or_null("/root/Game/Effects/UI/HUD")
+	if HUD != null: 
 			HUD.update_lives()
+	pass 
 
 func update_score(s):
 	score += s
-	var HUD = get_node_or_null("/root/Game/UI/HUD")
+	var HUD = get_node_or_null("/root/Game/Effects/UI/HUD")
 	if HUD != null: 
 		HUD.update_score()
 
 func update_lives(l):
 	lives += l
-	if live < 0
-	var _scene = get_tree().change_scene("res/UI.End_Game.TSCN")
-	var HUD = get_node_or_null("/root/Game/UI/HUD")
+	if lives < 0:
+		var _scene = get_tree().change_scene("res://UI/End_Game.tscn")
+	var HUD = get_node_or_null("/root/Game/Effects/UI/HUD")
 	if HUD != null: 
 		HUD.update_lives()
-	
+
+func update_ammo(a): 
+	ammo += a
+	var HUD = get_node_or_null("/root/Game/Effects/UI/HUD")
+	if HUD != null: 
+		HUD.update_ammo()
 
 func reset(): 
 	score = 0
 	time = 30
 	lives =5
+	ammo = 20

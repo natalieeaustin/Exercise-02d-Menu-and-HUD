@@ -20,7 +20,7 @@ func _ready():
 func _physics_process(_delta):
 	position += direction
 	position.y = initial_position.y + sin(position.x/20)*wobble
-	if position.x >= Global.VP.x + 200:
+	if position.x >= Global.GP.x + 200:
 		queue_free()
 
 func damage(d):

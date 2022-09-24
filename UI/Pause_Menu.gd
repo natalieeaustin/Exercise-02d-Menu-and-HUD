@@ -12,4 +12,4 @@ func _on_Restart_pressed():
 
 
 func _on_Quit_pressed():
-	get_tree().quit()
+	get_tree().quit() 

@@ -13,8 +13,8 @@ func _ready():
 
 func _physics_process(_delta):
 	position = position + velocity
-	position.x = wrapf(position.x, 0, Global.VP.x)
-	position.y = wrapf(position.y, 0, Global.VP.y)
+	position.x = wrapf(position.x, 0, Global.GP.x)
+	position.y = wrapf(position.y, 0, Global.GP.y)
 
 
 func damage(d):
